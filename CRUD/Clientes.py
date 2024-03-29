@@ -22,13 +22,42 @@ class Cclientes:
             
     def mostrarClientes():
        
-       try: 
-           cone= Cconexion.ConexionBaseDatos()
-           cursor = cone.cursor()
-           sql= "select * from persona;"
-           resultado=cursor.fetchall()
-           cone.commit()
-           cone.close()
-           return resultado
-       except mysql.connector.Error as error:
-           print("Error mostrar datos {}".format(error))
+        try:
+            cone= Cconexion.ConexionBaseDatos()
+            cursor = cone.cursor()
+            cursor.execute("SELECT * FROM persona")
+            rows = cursor.fetchall()
+            cone.close()
+            return rows
+        except Exception as error:
+            print("Error al mostrar los clientes:::::: {error}")
+            return []
+        
+    def modificarCliente( id,nombre, apellido, telefono, edad, email, sexo):
+        try:
+            cone= Cconexion.ConexionBaseDatos()
+            cursor = cone.cursor()
+            sql= "update persona set persona.nombre=%s , persona.apellido=%s ,persona.telefono=%s ,  persona.edad=%s , persona.email=%s ,persona.sexo=%s where persona.id=%s";
+            valores= (nombre, apellido, telefono, edad, email, sexo, id)
+            cursor.execute(sql, valores)
+            cone.commit()
+            print(cursor.rowcount, "Registro Actualizado")
+            cone.close()
+            
+        except mysql.connector.Error as error:
+            print("Error de actualizacion de datossssssssssssss")
+    
+    def eliminarCliente( id,nombre, apellido, telefono, edad, email, sexo):
+        try:
+            cone= Cconexion.ConexionBaseDatos()
+            cursor = cone.cursor()
+            sql= "update persona set persona.nombre=%s , persona.apellido=%s ,persona.telefono=%s ,  persona.edad=%s , persona.email=%s ,persona.sexo=%s where persona.id=%s";
+            valores= (nombre, apellido, telefono, edad, email, sexo, id)
+            cursor.execute(sql, valores)
+            cone.commit()
+            print(cursor.rowcount, "Registro Actualizado")
+            cone.close()
+            
+        except mysql.connector.Error as error:
+            print("Error de actualizacion de datossssssssssssss")
+            
